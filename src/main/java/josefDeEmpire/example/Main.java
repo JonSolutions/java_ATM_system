@@ -9,6 +9,9 @@ public class Main {
 //        new HomeFrame();
 //        new CheckBalanceFrame();
 //        new CheckBalancePinFrame();
+//        new DepositFrame();
+//        new SendMoneyFrame();
+//        new WithDrawFrame();
     }
 }
 // account frame,

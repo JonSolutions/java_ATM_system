@@ -8,39 +8,48 @@ public class LoginFrame {
         JFrame frame = new JFrame();
         frame.setTitle("Login");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(300, 250);
+        frame.setSize(300, 300);
         frame.setLocationRelativeTo(null);
         frame.setLayout(new FlowLayout());
-        frame.getContentPane().setBackground(Color.green);
+        frame.getContentPane().setBackground(Color.lightGray);
 
+
+        JPanel labelPanel = new JPanel();
+        labelPanel.setPreferredSize(new Dimension(300, 40));
+        labelPanel.setLayout(new FlowLayout());
+        JLabel usernameLabel = new JLabel("Username");
+        usernameLabel.setFont(new Font("Arial", Font.BOLD, 15));
+        usernameLabel.setForeground(Color.red);
+        labelPanel.add(usernameLabel);
 
         JPanel usernamePanel = new JPanel();
-        usernamePanel.setPreferredSize(new Dimension(300, 50));
-        usernamePanel.setBackground(Color.magenta);
+        usernamePanel.setPreferredSize(new Dimension(300, 40));
         usernamePanel.setLayout(new FlowLayout());
-        JLabel usernameLabel = new JLabel("Username");
-        usernameLabel.setForeground(Color.red);
-        JTextField usernameField = new JTextField(15);
-        usernameField.setPreferredSize(new Dimension(300, 30));
-        usernamePanel.add(usernameLabel);
+        JTextField usernameField = new JTextField();
+        usernameField.setFont(new Font("Serif", Font.BOLD, 20));
+        usernameField.setPreferredSize(new Dimension(280, 30));
         usernamePanel.add(usernameField);
 
-        JPanel passwordPanel = new JPanel();
-        passwordPanel.setPreferredSize(new Dimension(300, 50));
-        passwordPanel.setBackground(Color.yellow);
+        JPanel passwordLabelPanel = new JPanel();
+        passwordLabelPanel.setPreferredSize(new Dimension(300, 40));
         JLabel passwordLabel = new JLabel("Password");
         passwordLabel.setForeground(Color.red);
-        JPasswordField passwordField = new JPasswordField(15);
-        passwordField.setPreferredSize(new Dimension(300, 30));
-        passwordPanel.add(passwordLabel);
+        passwordLabel.setFont(new Font("Arial", Font.BOLD, 15));
+        passwordLabelPanel.add(passwordLabel);
+
+        JPanel passwordPanel = new JPanel();
+        passwordPanel.setPreferredSize(new Dimension(300, 40));
+        JPasswordField passwordField = new JPasswordField();
+        passwordField.setPreferredSize(new Dimension(280, 30));
+        passwordField.setFont(new Font("Serif", Font.BOLD, 20));
         passwordPanel.add(passwordField);
 
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setPreferredSize(new Dimension(300, 50));
-        buttonPanel.setBackground(Color.blue);
+         JPanel buttonPanel = new JPanel();
+        buttonPanel.setPreferredSize(new Dimension(300, 40));
         JButton loginButton = new JButton("Login");
-        loginButton.setBackground(Color.yellow);
-        loginButton.setForeground(Color.red);
+        loginButton.setBackground(Color.green);
+        loginButton.setForeground(Color.blue);
+        loginButton.setPreferredSize(new Dimension(280, 30));
         loginButton.setFont(new Font("Tahoma", Font.BOLD, 12));
         loginButton.addActionListener(e -> {
             if (usernameField.getText().equals("admin") && passwordField.getText().equals("admin")) {
@@ -49,8 +58,9 @@ public class LoginFrame {
             }
         });
         buttonPanel.add(loginButton);
-
+        frame.add(labelPanel);
         frame.add(usernamePanel);
+        frame.add(passwordLabelPanel);
         frame.add(passwordPanel);
         frame.add(buttonPanel);
         frame.setVisible(true);
