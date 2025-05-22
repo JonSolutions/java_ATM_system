@@ -2,6 +2,8 @@ package josefDeEmpire.example;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class CreateOrLoginFrame {
     CreateOrLoginFrame() {
@@ -25,6 +27,8 @@ public class CreateOrLoginFrame {
         loginPanel.setPreferredSize(new Dimension(400, 50));
         JButton loginButton = new JButton("Login To Account");
         loginButton.setPreferredSize(new Dimension(380, 40));
+        MyUtils myUtils = new MyUtils();
+        myUtils.buttonEffects(loginButton);
         loginButton.addActionListener(e -> {
             if (e.getSource() == loginButton) {
                 frame.dispose();

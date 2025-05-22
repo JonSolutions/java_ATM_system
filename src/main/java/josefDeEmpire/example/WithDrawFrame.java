@@ -52,6 +52,8 @@ public class WithDrawFrame {
         JButton withdrawButton = new JButton("Withdraw");
         withdrawButton.setPreferredSize(new Dimension(380, 70));
         withdrawButton.setBackground(Color.green);
+        MyUtils myUtils = new MyUtils();
+        myUtils.buttonEffects(withdrawButton);
         withdrawButton.addActionListener(e -> {
             if(e.getSource() == withdrawButton) {
                 if(withdrawAmountField.getText().isEmpty() || withdrawToField.getText().isEmpty()) {

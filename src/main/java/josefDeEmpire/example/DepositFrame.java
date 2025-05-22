@@ -55,6 +55,8 @@ public class DepositFrame {
         depositAmountButton.setFont(new Font("Arial", Font.BOLD, 12));
         depositAmountButton.setPreferredSize(new Dimension(180, 30));
         depositAmountButton.setBackground(Color.green);
+        MyUtils myUtils = new MyUtils();
+        myUtils.buttonEffects(depositAmountButton);
         depositAmountButton.addActionListener(e -> {
             if(e.getSource() == depositAmountButton){
                 if(depositAmountTextField.getText().isEmpty() || depositFromTextField.getText().isEmpty()){

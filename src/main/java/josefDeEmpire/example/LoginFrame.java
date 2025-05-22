@@ -2,6 +2,9 @@ package josefDeEmpire.example;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class LoginFrame {
     LoginFrame() {
@@ -47,10 +50,11 @@ public class LoginFrame {
          JPanel buttonPanel = new JPanel();
         buttonPanel.setPreferredSize(new Dimension(300, 40));
         JButton loginButton = new JButton("Login");
-        loginButton.setBackground(Color.green);
         loginButton.setForeground(Color.blue);
         loginButton.setPreferredSize(new Dimension(280, 30));
         loginButton.setFont(new Font("Tahoma", Font.BOLD, 12));
+        MyUtils myUtils = new MyUtils();
+        myUtils.buttonEffects(loginButton);
         loginButton.addActionListener(e -> {
             if(e.getSource() == loginButton) {
                 String username = usernameField.getText();
@@ -98,5 +102,6 @@ public class LoginFrame {
         frame.add(buttonPanel);
         frame.add(createAccountButton);
         frame.setVisible(true);
+
     }
 }
