@@ -3,6 +3,8 @@ package josefDeEmpire.example;
 import javax.swing.*;
 import java.awt.*;
 
+import static josefDeEmpire.example.JdbcCrud.*;
+
 public class CheckBalancePinFrame {
     CheckBalancePinFrame() {
         JFrame frame = new JFrame("Your Balance");
@@ -36,16 +38,20 @@ public class CheckBalancePinFrame {
         buttonPanel.add(button);
         button.addActionListener(e -> {
             if(e.getSource() == button) {
-                if (!(textField.getText().equals("admin"))){
+                String username = String.valueOf(textField.getText());
+                String user = isUsername(username);
+                if (!username.equals(user)){
                     if(textField.getText().isEmpty()){
-                        String empt = "Enter Password First!!";
-                        JOptionPane.showMessageDialog(frame, empt,"Empty Password!!", JOptionPane.INFORMATION_MESSAGE);
+                        String empt = "Enter Username First!!";
+                        JOptionPane.showMessageDialog(frame, empt,"Empty Username!!", JOptionPane.INFORMATION_MESSAGE);
                     }else {
-                        String mess = " Incorrect password!! Enter Valid Password";
-                        JOptionPane.showMessageDialog(frame, mess, "Wrong password!!", JOptionPane.ERROR_MESSAGE);
+                        String mess = " Incorrect username!! Enter Valid Username";
+                        JOptionPane.showMessageDialog(frame, mess, "Wrong username!!", JOptionPane.ERROR_MESSAGE);
                     }
                 }else{
-                    JOptionPane.showMessageDialog(frame, "Your balance is 100000.98");
+                      int id = isUserId(username);
+                      double total = checkBalance(id);
+                    JOptionPane.showMessageDialog(frame, "Your balance is: " + total);
                     textField.setText("");
                     frame.dispose();
                     new HomeFrame();

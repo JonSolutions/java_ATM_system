@@ -23,7 +23,6 @@ public class MyUtils {
             }
             @Override
             public void mouseEntered(MouseEvent e){
-                btn.setBackground(Color.lightGray);
                 btn.setForeground(Color.black);
                 btn.setFont(new Font("Tahoma", Font.BOLD, 15));
             }

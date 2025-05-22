@@ -3,6 +3,8 @@ package josefDeEmpire.example;
 import javax.swing.*;
 import java.awt.*;
 
+import static josefDeEmpire.example.JdbcCrud.withdraws;
+
 public class WithDrawFrame {
     WithDrawFrame(){
         JFrame frame = new JFrame("Withdraw Money");
@@ -33,18 +35,18 @@ public class WithDrawFrame {
         JPanel withdrawToPanel = new JPanel();
         withdrawToPanel.setLayout(new FlowLayout());
         withdrawToPanel.setPreferredSize(new Dimension(400, 30));
-        JLabel withdrawToLabel = new JLabel("Withdraw To");
+        JLabel withdrawToLabel = new JLabel("From Account");
         withdrawToLabel.setPreferredSize(new Dimension(100, 20));
         withdrawToPanel.add(withdrawToLabel);
 
 
-        JPanel withdrawToFieldPanel = new JPanel();
-        withdrawToFieldPanel.setLayout(new FlowLayout());
-        withdrawToFieldPanel.setPreferredSize(new Dimension(400, 40));
-        JTextField withdrawToField = new JTextField();
-        withdrawToField.setPreferredSize(new Dimension(380, 30));
-        withdrawToField.setFont(new Font("Serif", Font.BOLD, 20));
-        withdrawToFieldPanel.add(withdrawToField);
+        JPanel withdrawFromFieldPanel = new JPanel();
+        withdrawFromFieldPanel.setLayout(new FlowLayout());
+        withdrawFromFieldPanel.setPreferredSize(new Dimension(400, 40));
+        JTextField withdrawFromField = new JTextField();
+        withdrawFromField.setPreferredSize(new Dimension(380, 30));
+        withdrawFromField.setFont(new Font("Serif", Font.BOLD, 20));
+        withdrawFromFieldPanel.add(withdrawFromField);
 
         JPanel withdrawButtonPanel = new JPanel();
         withdrawButtonPanel.setLayout(new FlowLayout());
@@ -56,14 +58,19 @@ public class WithDrawFrame {
         myUtils.buttonEffects(withdrawButton);
         withdrawButton.addActionListener(e -> {
             if(e.getSource() == withdrawButton) {
-                if(withdrawAmountField.getText().isEmpty() || withdrawToField.getText().isEmpty()) {
+                if(withdrawAmountField.getText().isEmpty() || withdrawFromField.getText().isEmpty()) {
                     String x = "All fields are required!!!";
                     JOptionPane.showMessageDialog(frame, x, "Field Error", JOptionPane.ERROR_MESSAGE);
                 }else {
-                    String text = "Initiate withdraw of ksh " + withdrawAmountField.getText() + " /= To: " + withdrawToField.getText();
+                    String text = "Initiate withdraw of ksh " + withdrawAmountField.getText() + " /= To: " + withdrawFromField.getText();
                     int response = JOptionPane.showConfirmDialog(frame, text + "Do you want to continue?", "Confirm", JOptionPane.OK_CANCEL_OPTION);
                     if (response == JOptionPane.OK_OPTION) {
-                        String message = "ksh " + withdrawAmountField.getText() + " /= has been withdrawn to: " + withdrawToField.getText();
+
+                        int user_id = Integer.parseInt(withdrawFromField.getText());
+                        double amount = Double.parseDouble(withdrawAmountField.getText());
+                        withdraws(user_id, amount);
+
+                        String message = "ksh " + withdrawAmountField.getText() + " /= has been withdrawn from account: " + withdrawFromField.getText() + " sucessfully!!!";
                         JOptionPane.showMessageDialog(frame, message, "Transaction Complete!", JOptionPane.PLAIN_MESSAGE);
                         frame.dispose();
                         new HomeFrame();
@@ -89,7 +96,7 @@ public class WithDrawFrame {
         frame.add(withdrawPanel);
         frame.add(withdrawAmountFieldPanel);
         frame.add(withdrawToPanel);
-        frame.add(withdrawToFieldPanel);
+        frame.add(withdrawFromFieldPanel);
         frame.add(withdrawButtonPanel);
         frame.add(homePanel);
         frame.setVisible(true);

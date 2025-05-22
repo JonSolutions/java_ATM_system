@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import static josefDeEmpire.example.JdbcCrud.isValidUser;
+
 public class LoginFrame {
     LoginFrame() {
         JFrame frame = new JFrame();
@@ -66,7 +68,8 @@ public class LoginFrame {
                     String tex = "username and password can't be less than 8 characters";
                     JOptionPane.showMessageDialog(frame,tex,"Empty Field(s)!!",JOptionPane.PLAIN_MESSAGE );
                 }else{
-                    if (usernameField.getText().equals("12345678") && passwordField.getText().equals("12345678")) {
+                    boolean isUser = isValidUser(username, password);
+                    if (isUser) {
                         frame.dispose();
                         new HomeFrame();
                     }else {

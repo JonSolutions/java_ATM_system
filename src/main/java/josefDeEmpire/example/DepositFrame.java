@@ -3,6 +3,9 @@ package josefDeEmpire.example;
 import javax.swing.*;
 import java.awt.*;
 
+import static josefDeEmpire.example.JdbcCrud.deposits;
+import static josefDeEmpire.example.JdbcCrud.sends;
+
 public class DepositFrame {
     DepositFrame(){
         JFrame frame = new JFrame("Deposit");
@@ -33,7 +36,7 @@ public class DepositFrame {
         JPanel depositFromPanel = new JPanel();
         depositFromPanel.setLayout(new FlowLayout());
         depositFromPanel.setPreferredSize(new Dimension(200, 30));
-        JLabel depositFrom = new JLabel("Deposit From");
+        JLabel depositFrom = new JLabel("From Account");
         depositFrom.setFont(new Font("Arial", Font.BOLD, 12));
         depositFrom.setPreferredSize(new Dimension(100, 30));
         depositFromPanel.add(depositFrom);
@@ -63,10 +66,13 @@ public class DepositFrame {
                     String x = "All fields are required!!!";
                     JOptionPane.showMessageDialog(frame, x, "Field Error", JOptionPane.ERROR_MESSAGE);
                 }else {
-                    String message = "Initiating depositing of  ksh " + depositFromTextField.getText() + " / = to your account from ";
+                    String message = "Initiating depositing of  ksh " + depositAmountTextField.getText() + " / = to your account from " + depositFromTextField.getText();
                     int response = JOptionPane.showConfirmDialog(frame, message + "Do you want to continue?", "Confirm", JOptionPane.OK_CANCEL_OPTION);
                     if (response == JOptionPane.OK_OPTION) {
-                        String text = "ksh " + depositFromTextField.getText() + " /= has been deposited to your account successfully!!: ";
+                        int user = Integer.parseUnsignedInt(depositFromTextField.getText());
+                        double amount = Double.parseDouble(depositAmountTextField.getText());
+                        deposits(user,amount);
+                        String text = "ksh " + depositAmountTextField.getText() + " /= has been deposited to your account successfully!!: ";
                         JOptionPane.showMessageDialog(frame, text, "Transaction Completed!!", JOptionPane.PLAIN_MESSAGE);
                         frame.dispose();
                         new HomeFrame();

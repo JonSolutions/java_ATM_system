@@ -3,6 +3,8 @@ package josefDeEmpire.example;
 import javax.swing.*;
 import java.awt.*;
 
+import static josefDeEmpire.example.JdbcCrud.users;
+
 public class CreateAccountFrame {
     CreateAccountFrame() {
         JFrame frame = new JFrame("Create Account");
@@ -97,8 +99,11 @@ public class CreateAccountFrame {
                     JOptionPane.showMessageDialog(frame, "Please fill all the required fields");
                 }else{
                     if(password.equals(confirmPassword)) {
-                        JdbcCrud database = new JdbcCrud();
-                            database.createUser(firstName, lastName, username, phoneNumber, password);
+                        try {
+                            users(firstName, lastName, username, phoneNumber, password);
+                        } catch (ClassNotFoundException ex) {
+                            throw new RuntimeException(ex);
+                        }
                         String text = "Congratulations " + firstName + ". Account Creation Successful. \nYour username is: " + username + "\n Your phone is: " + phoneNumber + ". \nDo you want to proceed to Login??\n";
                         int response = JOptionPane.showConfirmDialog(frame, text,"Confirm!!", JOptionPane.OK_CANCEL_OPTION);
                         if(response == JOptionPane.OK_OPTION) {
