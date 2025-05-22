@@ -18,7 +18,7 @@ public class CheckBalancePinFrame {
         JPanel labelPanel = new JPanel();
         panel.setLayout(new FlowLayout());
         panel.setPreferredSize(new Dimension(500, 40));
-        JLabel label = new JLabel("Enter Password");
+        JLabel label = new JLabel("Enter Username");
         label.setPreferredSize(new Dimension(100, 30));
 //        panel.setBorder(BorderFactory.createLineBorder(Color.black));
         label.setForeground(Color.red);
