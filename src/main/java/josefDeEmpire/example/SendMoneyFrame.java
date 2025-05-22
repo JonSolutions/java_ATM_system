@@ -52,13 +52,21 @@ public class SendMoneyFrame {
         sendButton.setPreferredSize(new Dimension(380, 70));
         sendButton.setBackground(Color.green);
         sendButton.addActionListener(e -> {
-            String message = "Initiating Sending of  ksh " + sendAmountField.getText() + " / = To: " + sendToField.getText();
-            int response = JOptionPane.showConfirmDialog(frame,message + "Do you want to continue?", "Confirm", JOptionPane.OK_CANCEL_OPTION);
-            if(response == JOptionPane.OK_OPTION) {
-                String text = "ksh " + sendAmountField.getText() + " /= has been sent to: " + sendToField.getText();
-                JOptionPane.showMessageDialog(frame, text, "Transaction Completed!!", JOptionPane.PLAIN_MESSAGE);
-                frame.dispose();
-                new HomeFrame();
+            if(e.getSource() == sendButton) {
+                if (sendAmountField.getText().isEmpty() || sendToField.getText().isEmpty()) {
+                    String x = "All fields are required!!!";
+                    JOptionPane.showMessageDialog(frame, x, "Field Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    String message = "Initiating Sending of  ksh " + sendAmountField.getText() + " / = To: " + sendToField.getText();
+                    int response = JOptionPane.showConfirmDialog(frame, message + "Do you want to continue?", "Confirm", JOptionPane.OK_CANCEL_OPTION);
+                    if (response == JOptionPane.OK_OPTION) {
+                        String text = "ksh " + sendAmountField.getText() + " /= has been sent to: " + sendToField.getText();
+                        JOptionPane.showMessageDialog(frame, text, "Transaction Completed!!", JOptionPane.PLAIN_MESSAGE);
+                        frame.dispose();
+                        new HomeFrame();
+                    }
+                }
+
             }
         });
         sendButtonPanel.add(sendButton);

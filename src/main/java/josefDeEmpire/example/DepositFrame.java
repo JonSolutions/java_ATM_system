@@ -57,13 +57,18 @@ public class DepositFrame {
         depositAmountButton.setBackground(Color.green);
         depositAmountButton.addActionListener(e -> {
             if(e.getSource() == depositAmountButton){
-                String message = "Initiating depositing of  ksh " + depositFromTextField.getText() + " / = to your account from " ;
-                int response = JOptionPane.showConfirmDialog(frame,message + "Do you want to continue?", "Confirm", JOptionPane.OK_CANCEL_OPTION);
-                if(response == JOptionPane.OK_OPTION) {
-                    String text = "ksh " + depositFromTextField.getText() + " /= has been deposited to your account successfully!!: ";
-                    JOptionPane.showMessageDialog(frame, text, "Transaction Completed!!", JOptionPane.PLAIN_MESSAGE);
-                    frame.dispose();
-                    new HomeFrame();
+                if(depositAmountTextField.getText().isEmpty() || depositFromTextField.getText().isEmpty()){
+                    String x = "All fields are required!!!";
+                    JOptionPane.showMessageDialog(frame, x, "Field Error", JOptionPane.ERROR_MESSAGE);
+                }else {
+                    String message = "Initiating depositing of  ksh " + depositFromTextField.getText() + " / = to your account from ";
+                    int response = JOptionPane.showConfirmDialog(frame, message + "Do you want to continue?", "Confirm", JOptionPane.OK_CANCEL_OPTION);
+                    if (response == JOptionPane.OK_OPTION) {
+                        String text = "ksh " + depositFromTextField.getText() + " /= has been deposited to your account successfully!!: ";
+                        JOptionPane.showMessageDialog(frame, text, "Transaction Completed!!", JOptionPane.PLAIN_MESSAGE);
+                        frame.dispose();
+                        new HomeFrame();
+                    }
                 }
             }
         });

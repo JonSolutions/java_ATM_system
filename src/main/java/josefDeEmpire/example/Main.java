@@ -4,7 +4,8 @@ package josefDeEmpire.example;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-    new CreateAccountFrame();
+        new CreateOrLoginFrame();
+//        new CreateAccountFrame();
 //        new LoginFrame();
 //        new HomeFrame();
 //        new CheckBalanceFrame();

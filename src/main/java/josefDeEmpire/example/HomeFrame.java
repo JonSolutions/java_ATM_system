@@ -7,13 +7,14 @@ public class HomeFrame {
     HomeFrame(){
         JFrame frame = new JFrame("Home");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 280);
+        frame.setSize(400, 330);
         frame.setLocationRelativeTo(null);
         frame.setLayout(new FlowLayout(FlowLayout.CENTER));
         frame.getContentPane().setBackground(Color.cyan);
 
         JLabel label = new JLabel("Home Main Menu");
         frame.add(label);
+
         JPanel depositPanel = new JPanel();
         depositPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         depositPanel.setBackground(Color.lightGray);
@@ -73,10 +74,25 @@ public class HomeFrame {
         });
         withDrawPanel.add(withdrawButton);
 
+        JPanel newAccountPanel = new JPanel();
+        newAccountPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        newAccountPanel.setBackground(Color.lightGray);
+        newAccountPanel.setPreferredSize(new Dimension(400, 50));
+        JButton newAccountButton = new JButton("Create New Account");
+        newAccountButton.setPreferredSize(new Dimension(380, 40));
+        newAccountButton.addActionListener(e -> {
+            if(e.getSource() == newAccountButton){
+                frame.dispose();
+                new CreateAccountFrame();
+            }
+        });
+        newAccountPanel.add(newAccountButton);
+
         frame.add(depositPanel);
-        frame.add(balancePanel);
         frame.add(sendPanel);
         frame.add(withDrawPanel);
+        frame.add(balancePanel);
+        frame.add(newAccountPanel);
         frame.setVisible(true);
     }
 }

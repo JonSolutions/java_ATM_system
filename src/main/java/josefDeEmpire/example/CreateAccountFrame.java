@@ -7,7 +7,7 @@ public class CreateAccountFrame {
     CreateAccountFrame() {
         JFrame frame = new JFrame("Create Account");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500, 430);
+        frame.setSize(500, 490);
         frame.setLocationRelativeTo(null);
         frame.getContentPane().setBackground(Color.lightGray);
         frame.setLayout(new FlowLayout());
@@ -97,6 +97,8 @@ public class CreateAccountFrame {
                     JOptionPane.showMessageDialog(frame, "Please fill all the required fields");
                 }else{
                     if(password.equals(confirmPassword)) {
+                        JdbcCrud database = new JdbcCrud();
+                            database.createUser(firstName, lastName, username, phoneNumber, password);
                         String text = "Congratulations " + firstName + ". Account Creation Successful. \nYour username is: " + username + "\n Your phone is: " + phoneNumber + ". \nDo you want to proceed to Login??\n";
                         int response = JOptionPane.showConfirmDialog(frame, text,"Confirm!!", JOptionPane.OK_CANCEL_OPTION);
                         if(response == JOptionPane.OK_OPTION) {
@@ -116,6 +118,19 @@ public class CreateAccountFrame {
         });
         panel7.add(CreateButton);
 
+        JPanel panel8 = new JPanel();
+        panel8.setPreferredSize(new Dimension(500, 50));
+        JButton backButton = new JButton("Go Back");
+        backButton.setPreferredSize(new Dimension(480, 40));
+        backButton.addActionListener(e -> {
+            if(e.getSource() == backButton) {
+                frame.dispose();
+                new CreateOrLoginFrame();
+            }
+
+        });
+        panel8.add(backButton);
+
 
 
         frame.add(panel1);
@@ -125,6 +140,7 @@ public class CreateAccountFrame {
         frame.add(panel5);
         frame.add(panel6);
         frame.add(panel7);
+        frame.add(panel8);
         frame.setVisible(true);
     }
 

@@ -54,13 +54,18 @@ public class WithDrawFrame {
         withdrawButton.setBackground(Color.green);
         withdrawButton.addActionListener(e -> {
             if(e.getSource() == withdrawButton) {
-                String text = "Initiate withdraw of ksh " + withdrawAmountField.getText() + " /= To: " + withdrawToField.getText();
-                int response = JOptionPane.showConfirmDialog(frame,text + "Do you want to continue?", "Confirm", JOptionPane.OK_CANCEL_OPTION);
-                if(response == JOptionPane.OK_OPTION) {
-                    String message = "ksh " + withdrawAmountField.getText() + " /= has been withdrawn to: " + withdrawToField.getText();
-                    JOptionPane.showMessageDialog(frame, message, "Transaction Complete!", JOptionPane.PLAIN_MESSAGE);
-                    frame.dispose();
-                    new HomeFrame();
+                if(withdrawAmountField.getText().isEmpty() || withdrawToField.getText().isEmpty()) {
+                    String x = "All fields are required!!!";
+                    JOptionPane.showMessageDialog(frame, x, "Field Error", JOptionPane.ERROR_MESSAGE);
+                }else {
+                    String text = "Initiate withdraw of ksh " + withdrawAmountField.getText() + " /= To: " + withdrawToField.getText();
+                    int response = JOptionPane.showConfirmDialog(frame, text + "Do you want to continue?", "Confirm", JOptionPane.OK_CANCEL_OPTION);
+                    if (response == JOptionPane.OK_OPTION) {
+                        String message = "ksh " + withdrawAmountField.getText() + " /= has been withdrawn to: " + withdrawToField.getText();
+                        JOptionPane.showMessageDialog(frame, message, "Transaction Complete!", JOptionPane.PLAIN_MESSAGE);
+                        frame.dispose();
+                        new HomeFrame();
+                    }
                 }
             }
         });

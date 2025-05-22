@@ -52,17 +52,51 @@ public class LoginFrame {
         loginButton.setPreferredSize(new Dimension(280, 30));
         loginButton.setFont(new Font("Tahoma", Font.BOLD, 12));
         loginButton.addActionListener(e -> {
-            if (usernameField.getText().equals("admin") && passwordField.getText().equals("admin")) {
+            if(e.getSource() == loginButton) {
+                String username = usernameField.getText();
+                String password = String.valueOf(passwordField.getPassword());
+                if(username.isEmpty() || password.isEmpty()) {
+                    String text = "Enter username and password!";
+                    JOptionPane.showMessageDialog(frame,text,"Empty Field(s)!!",JOptionPane.PLAIN_MESSAGE );
+                }else if(username.length() < 8 || password.length() < 8) {
+                    String tex = "username and password can't be less than 8 characters";
+                    JOptionPane.showMessageDialog(frame,tex,"Empty Field(s)!!",JOptionPane.PLAIN_MESSAGE );
+                }else{
+                    if (usernameField.getText().equals("12345678") && passwordField.getText().equals("12345678")) {
+                        frame.dispose();
+                        new HomeFrame();
+                    }else {
+                        String tec = " Incorrect Password or Username ";
+                        JOptionPane.showMessageDialog(frame,tec,"Invalid Credentials!!!!",JOptionPane.PLAIN_MESSAGE );
+                        usernameField.setText("");
+                        passwordField.setText("");
+                    }
+                }
+            }
+
+        });
+
+        JPanel createAccountPanel = new JPanel();
+        createAccountPanel.setPreferredSize(new Dimension(300, 40));
+        JButton createAccountButton = new JButton("new account?");
+        createAccountButton.setForeground(Color.blue);
+        createAccountButton.setPreferredSize(new Dimension(280, 30));
+        createAccountButton.setFont(new Font("Tahoma", Font.BOLD, 12));
+        createAccountButton.addActionListener(e -> {
+            if(e.getSource() == createAccountButton) {
                 frame.dispose();
-                new HomeFrame();
+                new CreateAccountFrame();
             }
         });
+
+
         buttonPanel.add(loginButton);
         frame.add(labelPanel);
         frame.add(usernamePanel);
         frame.add(passwordLabelPanel);
         frame.add(passwordPanel);
         frame.add(buttonPanel);
+        frame.add(createAccountButton);
         frame.setVisible(true);
     }
 }
