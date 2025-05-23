@@ -2,6 +2,7 @@ package josefDeEmpire.example;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
 
 import static josefDeEmpire.example.JdbcCrud.*;
 
@@ -50,7 +51,12 @@ public class CheckBalancePinFrame {
                     }
                 }else{
                       int id = isUserId(username);
-                      double total = checkBalance(id);
+                    double total = 0;
+                    try {
+                        total = checkBalance(id);
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
                     JOptionPane.showMessageDialog(frame, "Your balance is: " + total);
                     textField.setText("");
                     frame.dispose();

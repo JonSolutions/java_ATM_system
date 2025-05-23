@@ -240,22 +240,24 @@ public class JdbcCrud {
     }
 
 
-    public static double checkBalance(int user_id) {
+    public static double checkBalance(int user_id) throws SQLException {
         double total = 0;
+        Connection conn = null;
         try {
-            Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            conn.setAutoCommit(false);
             String insertSQL = "SELECT " +
-                            "    COALESCE(deposit_total, 0) + " +
-                            "    COALESCE(received_total, 0) - " +
-                            "    COALESCE(withdraw_total, 0) - " +
-                            "    COALESCE(sent_total, 0) AS balance " +
-                            "FROM ( " +
-                            "    SELECT " +
-                            "        (SELECT SUM(amount) FROM deposits WHERE user_id = ?) AS deposit_total, " +
-                            "        (SELECT SUM(amount) FROM sends WHERE recipient_id = ?) AS received_total, " +
-                            "        (SELECT SUM(amount) FROM withdrawals WHERE user_id = ?) AS withdraw_total, " +
-                            "        (SELECT SUM(amount) FROM sends WHERE sender_id = ?) AS sent_total " +
-                            ") AS totals;";
+                    "    COALESCE(deposit_total, 0) + " +
+                    "    COALESCE(received_total, 0) - " +
+                    "    COALESCE(withdraw_total, 0) - " +
+                    "    COALESCE(sent_total, 0) AS balance " +
+                    "FROM ( " +
+                    "    SELECT " +
+                    "        (SELECT SUM(amount) FROM deposits WHERE user_id = ?) AS deposit_total, " +
+                    "        (SELECT SUM(amount) FROM sends WHERE recipient_id = ?) AS received_total, " +
+                    "        (SELECT SUM(amount) FROM withdrawals WHERE user_id = ?) AS withdraw_total, " +
+                    "        (SELECT SUM(amount) FROM sends WHERE sender_id = ?) AS sent_total " +
+                    ") AS totals;";
 
 
             PreparedStatement ps = conn.prepareStatement(insertSQL);
@@ -265,7 +267,7 @@ public class JdbcCrud {
             ps.setInt(3, user_id);
             ps.setInt(4, user_id);
 
-
+            conn.commit();
             ResultSet resultSet = ps.executeQuery();
             if (resultSet.next()) {
                 total = resultSet.getDouble("balance");
@@ -273,6 +275,7 @@ public class JdbcCrud {
             }
 
         } catch (SQLException e) {
+            conn.rollback();
             System.out.println(e.getMessage());
         }
         return total;

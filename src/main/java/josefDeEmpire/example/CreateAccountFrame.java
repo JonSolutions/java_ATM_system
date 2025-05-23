@@ -148,6 +148,4 @@ public class CreateAccountFrame {
         frame.add(panel8);
         frame.setVisible(true);
     }
-
-
 }

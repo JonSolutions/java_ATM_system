@@ -61,6 +61,7 @@ public class SendMoneyFrame {
         sendFieldPanel.setPreferredSize(new Dimension(400, 40));
         JTextField sendToField = new JTextField();
         sendToField.setPreferredSize(new Dimension(380, 30));
+        sendToField.setFont(new Font("Serif", Font.BOLD, 20));
         sendFieldPanel.add(sendToField);
 
         JPanel sendButtonPanel = new JPanel();
