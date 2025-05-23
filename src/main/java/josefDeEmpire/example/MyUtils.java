@@ -6,8 +6,15 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class MyUtils {
-    MyUtils() {}
-    public void buttonEffects(JButton btn){
+    String total;
+    String first_name;
+    String last_name;
+    MyUtils(double total, String first_name, String last_name) {
+        this.total = String.valueOf(total);
+        this.first_name = first_name;
+        this.last_name = last_name;
+    }
+    public static void buttonEffects(JButton btn){
         btn.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e){
@@ -34,3 +41,4 @@ public class MyUtils {
         });
     }
 }
+

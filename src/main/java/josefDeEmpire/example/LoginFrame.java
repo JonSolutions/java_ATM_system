@@ -7,6 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import static josefDeEmpire.example.JdbcCrud.isValidUser;
+import static josefDeEmpire.example.MyUtils.buttonEffects;
 
 public class LoginFrame {
     LoginFrame() {
@@ -55,8 +56,7 @@ public class LoginFrame {
         loginButton.setForeground(Color.blue);
         loginButton.setPreferredSize(new Dimension(280, 30));
         loginButton.setFont(new Font("Tahoma", Font.BOLD, 12));
-        MyUtils myUtils = new MyUtils();
-        myUtils.buttonEffects(loginButton);
+        buttonEffects(loginButton);
         loginButton.addActionListener(e -> {
             if(e.getSource() == loginButton) {
                 String username = usernameField.getText();

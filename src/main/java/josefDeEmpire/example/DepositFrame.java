@@ -5,6 +5,7 @@ import java.awt.*;
 
 import static josefDeEmpire.example.JdbcCrud.deposits;
 import static josefDeEmpire.example.JdbcCrud.sends;
+import static josefDeEmpire.example.MyUtils.buttonEffects;
 
 public class DepositFrame {
     DepositFrame(){
@@ -58,8 +59,7 @@ public class DepositFrame {
         depositAmountButton.setFont(new Font("Arial", Font.BOLD, 12));
         depositAmountButton.setPreferredSize(new Dimension(180, 30));
         depositAmountButton.setBackground(Color.green);
-        MyUtils myUtils = new MyUtils();
-        myUtils.buttonEffects(depositAmountButton);
+        buttonEffects(depositAmountButton);
         depositAmountButton.addActionListener(e -> {
             if(e.getSource() == depositAmountButton){
                 if(depositAmountTextField.getText().isEmpty() || depositFromTextField.getText().isEmpty()){

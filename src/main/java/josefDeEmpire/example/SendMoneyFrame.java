@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 import static josefDeEmpire.example.JdbcCrud.sends;
+import static josefDeEmpire.example.MyUtils.buttonEffects;
 
 public class SendMoneyFrame {
     SendMoneyFrame (){
@@ -70,8 +71,7 @@ public class SendMoneyFrame {
         JButton sendButton = new JButton("Send");
         sendButton.setPreferredSize(new Dimension(380, 70));
         sendButton.setBackground(Color.green);
-        MyUtils myUtils = new MyUtils();
-        myUtils.buttonEffects(sendButton);
+        buttonEffects(sendButton);
         sendButton.addActionListener(e -> {
             if(e.getSource() == sendButton) {
                 if (sendAmountField.getText().isEmpty() || sendToField.getText().isEmpty()) {

@@ -240,9 +240,9 @@ public class JdbcCrud {
     }
 
 
-    public static double checkBalance(int user_id) throws SQLException {
-        double total = 0;
+    public static List<MyUtils> checkBalance(int user_id) throws SQLException {
         Connection conn = null;
+        List<MyUtils> userDetails = new ArrayList<>();
         try {
             conn = DriverManager.getConnection(URL, USER, PASSWORD);
             conn.setAutoCommit(false);
@@ -250,13 +250,17 @@ public class JdbcCrud {
                     "    COALESCE(deposit_total, 0) + " +
                     "    COALESCE(received_total, 0) - " +
                     "    COALESCE(withdraw_total, 0) - " +
-                    "    COALESCE(sent_total, 0) AS balance " +
+                    "    COALESCE(sent_total, 0) AS balance, " +
+                    "    first_name , " +
+                    "    last_name " +
                     "FROM ( " +
                     "    SELECT " +
                     "        (SELECT SUM(amount) FROM deposits WHERE user_id = ?) AS deposit_total, " +
                     "        (SELECT SUM(amount) FROM sends WHERE recipient_id = ?) AS received_total, " +
                     "        (SELECT SUM(amount) FROM withdrawals WHERE user_id = ?) AS withdraw_total, " +
-                    "        (SELECT SUM(amount) FROM sends WHERE sender_id = ?) AS sent_total " +
+                    "        (SELECT SUM(amount) FROM sends WHERE sender_id = ?) AS sent_total, " +
+                    "        (SELECT first_name FROM users WHERE id = ?) AS first_name, " +
+                    "        (SELECT last_name FROM users WHERE id = ?) AS last_name " +
                     ") AS totals;";
 
 
@@ -266,11 +270,16 @@ public class JdbcCrud {
             ps.setInt(2, user_id);
             ps.setInt(3, user_id);
             ps.setInt(4, user_id);
+            ps.setInt(5, user_id);
+            ps.setInt(6, user_id);
 
             conn.commit();
             ResultSet resultSet = ps.executeQuery();
             if (resultSet.next()) {
-                total = resultSet.getDouble("balance");
+                double total = resultSet.getDouble("balance");
+                String first_name = resultSet.getString("first_name");
+                String last_name = resultSet.getString("last_name");
+                userDetails.add(new MyUtils(total, first_name, last_name));
                 System.out.println("Account balance: " + total);
             }
 
@@ -278,7 +287,7 @@ public class JdbcCrud {
             conn.rollback();
             System.out.println(e.getMessage());
         }
-        return total;
+        return userDetails;
     }
 
 

@@ -3,6 +3,7 @@ package josefDeEmpire.example;
 import javax.swing.*;
 import java.awt.*;
 import java.sql.SQLException;
+import java.util.List;
 
 import static josefDeEmpire.example.JdbcCrud.*;
 
@@ -51,13 +52,19 @@ public class CheckBalancePinFrame {
                     }
                 }else{
                       int id = isUserId(username);
-                    double total = 0;
+                    String total;
+                    String first_name;
+                    String last_name;
                     try {
-                        total = checkBalance(id);
+                        List<MyUtils> userList = checkBalance(id);
+                        System.out.println(userList);
+                        total = userList.getFirst().total;
+                        first_name = userList.getFirst().first_name;
+                        last_name = userList.getFirst().last_name;
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
                     }
-                    JOptionPane.showMessageDialog(frame, "Your balance is: " + total);
+                    JOptionPane.showMessageDialog(frame, "Hello, " + first_name + " " + last_name + ", Your balance is: " + total);
                     textField.setText("");
                     frame.dispose();
                     new HomeFrame();

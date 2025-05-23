@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 import static josefDeEmpire.example.JdbcCrud.withdraws;
+import static josefDeEmpire.example.MyUtils.buttonEffects;
 
 public class WithDrawFrame {
     WithDrawFrame(){
@@ -54,8 +55,7 @@ public class WithDrawFrame {
         JButton withdrawButton = new JButton("Withdraw");
         withdrawButton.setPreferredSize(new Dimension(380, 70));
         withdrawButton.setBackground(Color.green);
-        MyUtils myUtils = new MyUtils();
-        myUtils.buttonEffects(withdrawButton);
+        buttonEffects(withdrawButton);
         withdrawButton.addActionListener(e -> {
             if(e.getSource() == withdrawButton) {
                 if(withdrawAmountField.getText().isEmpty() || withdrawFromField.getText().isEmpty()) {

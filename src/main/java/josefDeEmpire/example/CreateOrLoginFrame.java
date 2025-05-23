@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import static josefDeEmpire.example.MyUtils.buttonEffects;
+
 public class CreateOrLoginFrame {
     CreateOrLoginFrame() {
         JFrame frame = new JFrame("Josef DeEmpire Banking System");
@@ -27,8 +29,7 @@ public class CreateOrLoginFrame {
         loginPanel.setPreferredSize(new Dimension(400, 50));
         JButton loginButton = new JButton("Login To Account");
         loginButton.setPreferredSize(new Dimension(380, 40));
-        MyUtils myUtils = new MyUtils();
-        myUtils.buttonEffects(loginButton);
+        buttonEffects(loginButton);
         loginButton.addActionListener(e -> {
             if (e.getSource() == loginButton) {
                 frame.dispose();
