@@ -3,7 +3,7 @@ package josefDeEmpire.example;
 import javax.swing.*;
 import java.awt.*;
 
-import static josefDeEmpire.example.JdbcCrud.sends;
+import static josefDeEmpire.example.JdbcCrud.*;
 import static josefDeEmpire.example.MyUtils.buttonEffects;
 
 public class SendMoneyFrame {
@@ -36,23 +36,15 @@ public class SendMoneyFrame {
         JPanel sendFromPanel = new JPanel();
         sendFromPanel.setLayout(new FlowLayout());
         sendFromPanel.setPreferredSize(new Dimension(400, 30));
-        JLabel sendFromLabel = new JLabel("Send From Account");
-        sendFromLabel.setPreferredSize(new Dimension(100, 20));
+        JLabel sendFromLabel = new JLabel("Hi, " + currentUser_first_name + " " + currentUser_last_name + " happy transacting!!");
+        sendFromLabel.setPreferredSize(new Dimension(200, 20));
         sendFromPanel.add(sendFromLabel);
 
-
-        JPanel sendFroPanel = new JPanel();
-        sendFroPanel.setLayout(new FlowLayout());
-        sendFroPanel.setPreferredSize(new Dimension(400, 40));
-        JTextField sendFroField = new JTextField();
-        sendFroField.setPreferredSize(new Dimension(380, 30));
-        sendFroField.setFont(new Font("Serif", Font.BOLD, 20));
-        sendFroPanel.add(sendFroField);
 
         JPanel sendToPanel = new JPanel();
         sendToPanel.setLayout(new FlowLayout());
         sendToPanel.setPreferredSize(new Dimension(400, 30));
-        JLabel sendToLabel = new JLabel("Send To Account");
+        JLabel sendToLabel = new JLabel("To Account Account Number");
         sendToLabel.setPreferredSize(new Dimension(100, 20));
         sendToPanel.add(sendToLabel);
 
@@ -78,13 +70,13 @@ public class SendMoneyFrame {
                     String x = "All fields are required!!!";
                     JOptionPane.showMessageDialog(frame, x, "Field Error", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    String message = "Initiating Sending of  ksh " + sendAmountField.getText() + " / = To: " + sendToField.getText();
-                    int response = JOptionPane.showConfirmDialog(frame, message + " Do you want to continue?", "Confirm", JOptionPane.OK_CANCEL_OPTION);
+                    String message = "Initiating Sending of  ksh " + sendAmountField.getText() + " / = to account number: " + sendToField.getText();
+                    int response = JOptionPane.showConfirmDialog(frame, message + ".  Do you want to continue?", "Confirm", JOptionPane.OK_CANCEL_OPTION);
                     if (response == JOptionPane.OK_OPTION) {
-                        int user_id = Integer.parseInt(sendFroField.getText());
+//                        int user_id = Integer.parseInt(sendFroField.getText());
                         int recipient_id = Integer.parseInt(sendToField.getText());
                         double amount = Double.parseDouble(sendAmountField.getText());
-                        sends(user_id, recipient_id, amount);
+                        sends(currentUser_id, recipient_id, amount);
                         String text = "ksh " + sendAmountField.getText() + " /= has been sent to: " + sendToField.getText();
                         JOptionPane.showMessageDialog(frame, text, "Transaction Completed!!", JOptionPane.PLAIN_MESSAGE);
                         frame.dispose();
@@ -109,12 +101,11 @@ public class SendMoneyFrame {
         });
         homeButtonPanel.add(homeButton);
 
+        frame.add(sendFromPanel);
         frame.add(sendAmountPanel);
         frame.add(amountFieldPanel);
         frame.add(sendToPanel);
         frame.add(sendFieldPanel);
-        frame.add(sendFromPanel);
-        frame.add(sendFroPanel);
         frame.add(sendButtonPanel);
         frame.add(homeButtonPanel);
         frame.setVisible(true);

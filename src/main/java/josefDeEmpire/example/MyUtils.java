@@ -9,10 +9,12 @@ public class MyUtils {
     String total;
     String first_name;
     String last_name;
-    MyUtils(double total, String first_name, String last_name) {
+    String username;
+    MyUtils(double total, String first_name, String last_name, String username) {
         this.total = String.valueOf(total);
         this.first_name = first_name;
         this.last_name = last_name;
+        this.username = username;
     }
     public static void buttonEffects(JButton btn){
         btn.addMouseListener(new MouseAdapter() {

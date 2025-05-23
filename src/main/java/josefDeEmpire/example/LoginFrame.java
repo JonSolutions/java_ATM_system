@@ -2,10 +2,10 @@ package josefDeEmpire.example;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
+import static josefDeEmpire.example.JdbcCrud.currentUser_username;
 import static josefDeEmpire.example.JdbcCrud.isValidUser;
 import static josefDeEmpire.example.MyUtils.buttonEffects;
 
@@ -68,8 +68,8 @@ public class LoginFrame {
                     String tex = "username and password can't be less than 8 characters";
                     JOptionPane.showMessageDialog(frame,tex,"Empty Field(s)!!",JOptionPane.PLAIN_MESSAGE );
                 }else{
-                    boolean isUser = isValidUser(username, password);
-                    if (isUser) {
+                    isValidUser(username, password);
+                    if (username.equals(currentUser_username)) {
                         frame.dispose();
                         new HomeFrame();
                     }else {

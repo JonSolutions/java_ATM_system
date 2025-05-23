@@ -41,34 +41,33 @@ public class CheckBalancePinFrame {
         button.addActionListener(e -> {
             if(e.getSource() == button) {
                 String username = String.valueOf(textField.getText());
-                String user = isUsername(username);
-                if (!username.equals(user)){
+//                String user = isUsername(username);
+
                     if(textField.getText().isEmpty()){
                         String empt = "Enter Username First!!";
                         JOptionPane.showMessageDialog(frame, empt,"Empty Username!!", JOptionPane.INFORMATION_MESSAGE);
-                    }else {
+                    }else if (!username.equals(currentUser_username)){
                         String mess = " Incorrect username!! Enter Valid Username";
                         JOptionPane.showMessageDialog(frame, mess, "Wrong username!!", JOptionPane.ERROR_MESSAGE);
-                    }
                 }else{
-                      int id = isUserId(username);
-                    String total;
-                    String first_name;
-                    String last_name;
-                    try {
-                        List<MyUtils> userList = checkBalance(id);
-                        System.out.println(userList);
-                        total = userList.getFirst().total;
-                        first_name = userList.getFirst().first_name;
-                        last_name = userList.getFirst().last_name;
-                    } catch (SQLException ex) {
-                        throw new RuntimeException(ex);
+//                        int id = isUserId(username);
+                        String total;
+                        String first_name;
+                        String last_name;
+                        try {
+                            List<MyUtils> userList = checkBalance(currentUser_id);
+                            System.out.println(userList);
+                            total = userList.getFirst().total;
+                            first_name = userList.getFirst().first_name;
+                            last_name = userList.getFirst().last_name;
+                        } catch (SQLException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        JOptionPane.showMessageDialog(frame, "Hello, " + first_name + " " + last_name + ", Your balance is: " + total);
+                        textField.setText("");
+                        frame.dispose();
+                        new HomeFrame();
                     }
-                    JOptionPane.showMessageDialog(frame, "Hello, " + first_name + " " + last_name + ", Your balance is: " + total);
-                    textField.setText("");
-                    frame.dispose();
-                    new HomeFrame();
-                }
             }
 
         });

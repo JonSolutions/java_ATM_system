@@ -3,8 +3,7 @@ package josefDeEmpire.example;
 import javax.swing.*;
 import java.awt.*;
 
-import static josefDeEmpire.example.JdbcCrud.deposits;
-import static josefDeEmpire.example.JdbcCrud.sends;
+import static josefDeEmpire.example.JdbcCrud.*;
 import static josefDeEmpire.example.MyUtils.buttonEffects;
 
 public class DepositFrame {
@@ -37,9 +36,9 @@ public class DepositFrame {
         JPanel depositFromPanel = new JPanel();
         depositFromPanel.setLayout(new FlowLayout());
         depositFromPanel.setPreferredSize(new Dimension(200, 30));
-        JLabel depositFrom = new JLabel("From Account");
+        JLabel depositFrom = new JLabel("Hi, " + currentUser_first_name + " " + currentUser_last_name + " happy transacting!!");
         depositFrom.setFont(new Font("Arial", Font.BOLD, 12));
-        depositFrom.setPreferredSize(new Dimension(100, 30));
+        depositFrom.setPreferredSize(new Dimension(200, 30));
         depositFromPanel.add(depositFrom);
 
 
@@ -62,16 +61,16 @@ public class DepositFrame {
         buttonEffects(depositAmountButton);
         depositAmountButton.addActionListener(e -> {
             if(e.getSource() == depositAmountButton){
-                if(depositAmountTextField.getText().isEmpty() || depositFromTextField.getText().isEmpty()){
-                    String x = "All fields are required!!!";
+                if(depositAmountTextField.getText().isEmpty()){
+                    String x = "Deposit amount is required!!!";
                     JOptionPane.showMessageDialog(frame, x, "Field Error", JOptionPane.ERROR_MESSAGE);
                 }else {
-                    String message = "Initiating depositing of  ksh " + depositAmountTextField.getText() + " / = to your account from " + depositFromTextField.getText();
-                    int response = JOptionPane.showConfirmDialog(frame, message + "Do you want to continue?", "Confirm", JOptionPane.OK_CANCEL_OPTION);
+                    String message = "Initiating depositing of  ksh " + depositAmountTextField.getText() + " / = to your account number: " + currentUser_id;
+                    int response = JOptionPane.showConfirmDialog(frame, message + " Do you want to continue?", "Confirm", JOptionPane.OK_CANCEL_OPTION);
                     if (response == JOptionPane.OK_OPTION) {
-                        int user = Integer.parseUnsignedInt(depositFromTextField.getText());
+//                        int user_id = Integer.parseUnsignedInt(depositFromTextField.getText());
                         double amount = Double.parseDouble(depositAmountTextField.getText());
-                        deposits(user,amount);
+                        deposits(currentUser_id, amount);
                         String text = "ksh " + depositAmountTextField.getText() + " /= has been deposited to your account successfully!!: ";
                         JOptionPane.showMessageDialog(frame, text, "Transaction Completed!!", JOptionPane.PLAIN_MESSAGE);
                         frame.dispose();
@@ -96,10 +95,10 @@ public class DepositFrame {
         });
         homePanel.add(homeButton);
 
+        frame.add(depositFromPanel);
         frame.add(depositAmountLabelPanel);
         frame.add(depositAmountFieldPanel);
-        frame.add(depositFromPanel);
-        frame.add(depositFromFieldPanel);
+//        frame.add(depositFromFieldPanel);
         frame.add(depositAmountButtonPanel);
         frame.add(homePanel);
         frame.setVisible(true);

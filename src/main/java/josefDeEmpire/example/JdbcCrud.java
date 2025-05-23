@@ -2,14 +2,18 @@ package josefDeEmpire.example;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class JdbcCrud {
     private static final String URL = "jdbc:mysql://localhost:3306/java_db?useSSL=true";
     private static final String USER = "root";
     private static final String PASSWORD = "@Joseph84";
+    public static  String currentUser_username;
+    public static  String currentUser_password;
+    public static int currentUser_id;
+    public static String currentUser_first_name;
+    public static String currentUser_last_name;
+
     JdbcCrud() {
     }
     public static void users(String first_name, String last_name, String username, String phone_number, String password) throws ClassNotFoundException {
@@ -51,11 +55,14 @@ public class JdbcCrud {
     }
 
 
-    public static boolean isValidUser(String username, String password) {
-        boolean isValid = false;
+    public static void isValidUser(String username, String password) {
 
-        String sql = "SELECT COUNT(*) FROM users WHERE username = ? AND password = ?";
+        int id =0;
 
+        String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+
+        String first_name = "";
+        String last_name = "";
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
@@ -67,7 +74,9 @@ public class JdbcCrud {
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     int count = resultSet.getInt(1);
-                    isValid = count > 0;
+                    id = resultSet.getInt("id");
+                    first_name = resultSet.getString("first_name");
+                    last_name = resultSet.getString("last_name");
                 }
             }
 
@@ -75,7 +84,12 @@ public class JdbcCrud {
             System.err.println("Database error: " + e.getMessage());
             e.printStackTrace();
         }
-        return isValid;
+        currentUser_username = username;
+        currentUser_password = password;
+        currentUser_id = id;
+        currentUser_first_name = first_name;
+        currentUser_last_name = last_name;
+
     }
 
     public static int isUserId(String username) {
@@ -252,7 +266,8 @@ public class JdbcCrud {
                     "    COALESCE(withdraw_total, 0) - " +
                     "    COALESCE(sent_total, 0) AS balance, " +
                     "    first_name , " +
-                    "    last_name " +
+                    "    last_name ," +
+                    "    username " +
                     "FROM ( " +
                     "    SELECT " +
                     "        (SELECT SUM(amount) FROM deposits WHERE user_id = ?) AS deposit_total, " +
@@ -260,7 +275,8 @@ public class JdbcCrud {
                     "        (SELECT SUM(amount) FROM withdrawals WHERE user_id = ?) AS withdraw_total, " +
                     "        (SELECT SUM(amount) FROM sends WHERE sender_id = ?) AS sent_total, " +
                     "        (SELECT first_name FROM users WHERE id = ?) AS first_name, " +
-                    "        (SELECT last_name FROM users WHERE id = ?) AS last_name " +
+                    "        (SELECT last_name FROM users WHERE id = ?) AS last_name ," +
+                    "        (SELECT username FROM users WHERE id = ?) AS username " +
                     ") AS totals;";
 
 
@@ -272,6 +288,7 @@ public class JdbcCrud {
             ps.setInt(4, user_id);
             ps.setInt(5, user_id);
             ps.setInt(6, user_id);
+            ps.setInt(7, user_id);
 
             conn.commit();
             ResultSet resultSet = ps.executeQuery();
@@ -279,7 +296,8 @@ public class JdbcCrud {
                 double total = resultSet.getDouble("balance");
                 String first_name = resultSet.getString("first_name");
                 String last_name = resultSet.getString("last_name");
-                userDetails.add(new MyUtils(total, first_name, last_name));
+                String username = resultSet.getString("username");
+                userDetails.add(new MyUtils(total, first_name, last_name, username));
                 System.out.println("Account balance: " + total);
             }
 
@@ -289,6 +307,11 @@ public class JdbcCrud {
         }
         return userDetails;
     }
+
+
+
+
+
 
 
 
