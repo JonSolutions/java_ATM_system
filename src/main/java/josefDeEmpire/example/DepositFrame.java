@@ -4,8 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 import static josefDeEmpire.example.JdbcCrud.*;
-import static josefDeEmpire.example.MyUtils.buttonEffects;
-import static josefDeEmpire.example.MyUtils.textFieldEffects;
+import static josefDeEmpire.example.MyUtils.*;
 
 public class DepositFrame {
     DepositFrame(){
@@ -71,20 +70,26 @@ public class DepositFrame {
         buttonEffects(depositAmountButton);
         depositAmountButton.addActionListener(e -> {
             if(e.getSource() == depositAmountButton){
-                if(depositAmountTextField.getText().isEmpty()){
-                    String x = "Deposit amount is required!!!";
-                    JOptionPane.showMessageDialog(frame, x, "Field Error", JOptionPane.ERROR_MESSAGE);
-                }else {
-                    String message = "Initiating depositing of  ksh " + depositAmountTextField.getText() + " / = to your account number: " + currentUser_id;
-                    int response = JOptionPane.showConfirmDialog(frame, message + " Do you want to continue?", "Confirm", JOptionPane.OK_CANCEL_OPTION);
-                    if (response == JOptionPane.OK_OPTION) {
+                if(!isSafeDouble(depositAmountTextField.getText())){
+                    String y = "Invalid Amount!!!";
+                    JOptionPane.showMessageDialog(frame, y, "Field Error", JOptionPane.ERROR_MESSAGE);
+                    depositAmountTextField.setText("");
+                }else{
+                    if(depositAmountTextField.getText().isEmpty()){
+                        String x = "Deposit amount is required!!!";
+                        JOptionPane.showMessageDialog(frame, x, "Field Error", JOptionPane.ERROR_MESSAGE);
+                    }else {
+                        String message = "Initiating depositing of  ksh " + depositAmountTextField.getText() + " / = to your account number: " + currentUser_id;
+                        int response = JOptionPane.showConfirmDialog(frame, message + " Do you want to continue?", "Confirm", JOptionPane.OK_CANCEL_OPTION);
+                        if (response == JOptionPane.OK_OPTION) {
 //                        int user_id = Integer.parseUnsignedInt(depositFromTextField.getText());
-                        double amount = Double.parseDouble(depositAmountTextField.getText());
-                        if(deposits(currentUser_id, amount)){
-                            String text = "ksh " + depositAmountTextField.getText() + " /= has been deposited to your account successfully!!: ";
-                            JOptionPane.showMessageDialog(frame, text, "Transaction Completed!!", JOptionPane.PLAIN_MESSAGE);
-                            frame.dispose();
-                            new HomeFrame();
+                            double amount = Double.parseDouble(depositAmountTextField.getText());
+                            if(deposits(currentUser_id, amount)){
+                                String text = "ksh " + depositAmountTextField.getText() + " /= has been deposited to your account successfully!!: ";
+                                JOptionPane.showMessageDialog(frame, text, "Transaction Completed!!", JOptionPane.PLAIN_MESSAGE);
+                                frame.dispose();
+                                new HomeFrame();
+                            }
                         }
                     }
                 }

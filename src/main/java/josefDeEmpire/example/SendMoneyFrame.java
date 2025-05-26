@@ -5,8 +5,7 @@ import java.awt.*;
 import java.sql.SQLException;
 
 import static josefDeEmpire.example.JdbcCrud.*;
-import static josefDeEmpire.example.MyUtils.buttonEffects;
-import static josefDeEmpire.example.MyUtils.textFieldEffects;
+import static josefDeEmpire.example.MyUtils.*;
 
 public class SendMoneyFrame {
     SendMoneyFrame (){
@@ -76,54 +75,68 @@ public class SendMoneyFrame {
         buttonEffects(sendButton);
         sendButton.addActionListener(e -> {
             if(e.getSource() == sendButton) {
-                if (sendAmountField.getText().isEmpty() || sendToField.getText().isEmpty()) {
-                    String x = "All fields are required!!!";
-                    JOptionPane.showMessageDialog(frame, x, "Field Error", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    int recipient_id = Integer.parseInt(sendToField.getText());
-                    if(recipient_id == currentUser_id){
-                        JOptionPane.showMessageDialog(frame,"Invalid Account Number!!", "Account Error", JOptionPane.ERROR_MESSAGE);
-                    }else{
-                        double balance;
-                        boolean isSuccessful;
-                        try {
-                            balance = checkBalance(currentUser_id).getFirst().total;
-                            isSuccessful = checkBalance(currentUser_id).getFirst().isSuccessful;
-                        } catch (SQLException ex) {
-                            throw new RuntimeException(ex);
-                        }
-                        double amount = Double.parseDouble(sendAmountField.getText());
-                        if(amount > balance){
-                            JOptionPane.showMessageDialog(frame,"Failed!! You have Insufficient Funds! Current balance is: ksh " + String.valueOf(balance) + " /=", "Insufficient Funds", JOptionPane.ERROR_MESSAGE);
-                        }else if(sendAmountField.getText().length() > 8){
-                            JOptionPane.showMessageDialog(frame, "Invalid Amount!!", "Amount Error", JOptionPane.ERROR_MESSAGE);
-                        }else {
-                            String first_name = userNames(recipient_id).get(0);
-                            String last_name = userNames(recipient_id).get(1);
-                            String message = "Initiating Sending of  ksh " + sendAmountField.getText() + " / = to " + first_name + " " + last_name + ", Account Number: " + sendToField.getText();
-                            int response = JOptionPane.showConfirmDialog(frame, message + ".  Do you want to continue?", "Confirm", JOptionPane.OK_CANCEL_OPTION);
-                            if (response == JOptionPane.OK_OPTION) {
-                                //                        int user_id = Integer.parseInt(sendFroField.getText());
+                if(!isSafeDouble(sendAmountField.getText())){
+                    String y = "Invalid Amount!!!";
+                    JOptionPane.showMessageDialog(frame, y, "Field Error", JOptionPane.ERROR_MESSAGE);
+                    sendAmountField.setText("");
+                }else {
 
-                                if (sends(currentUser_id, recipient_id, amount)) {
-                                    try {
-                                        balance = checkBalance(currentUser_id).getFirst().total;
-                                        isSuccessful = checkBalance(currentUser_id).getFirst().isSuccessful;
-                                    } catch (SQLException ex) {
-                                        throw new RuntimeException(ex);
-                                    }
-                                    String text = "Confirmed ksh " + sendAmountField.getText() + " /= has been sent to " + first_name + " " + last_name + ", Account Number:  " + sendToField.getText() + ". Your New Account Balance is: ksh " + String.valueOf(balance) + " /=";
-                                    if (isSuccessful) {
-                                        JOptionPane.showMessageDialog(frame, text, "Transaction Completed!!", JOptionPane.PLAIN_MESSAGE);
-                                        frame.dispose();
-                                        new HomeFrame();
-                                    } else {
-                                        String txt2 = "Confirmed ksh " + sendAmountField.getText() + " /= has been sent to " + first_name + " " + last_name + ", Account Number:  " + sendToField.getText();
-                                        JOptionPane.showMessageDialog(frame, txt2, "Transaction Completed!!", JOptionPane.PLAIN_MESSAGE);
+                    if (sendAmountField.getText().isEmpty() || sendToField.getText().isEmpty()) {
+                        String x = "All fields are required!!!";
+                        JOptionPane.showMessageDialog(frame, x, "Field Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        if(!isSafeInt(sendToField.getText())) {
+                            String n = "Invalid Account Number!!!";
+                            JOptionPane.showMessageDialog(frame, n, "Field Error", JOptionPane.ERROR_MESSAGE);
+                            sendToField.setText("");
+                        }else{
+                            int recipient_id = Integer.parseInt(sendToField.getText());
+                            if (recipient_id == currentUser_id) {
+                                JOptionPane.showMessageDialog(frame, "Invalid Account Number!!", "Account Error", JOptionPane.ERROR_MESSAGE);
+                            } else {
+                                double balance;
+                                boolean isSuccessful;
+                                try {
+                                    balance = checkBalance(currentUser_id).getFirst().total;
+                                    isSuccessful = checkBalance(currentUser_id).getFirst().isSuccessful;
+                                } catch (SQLException ex) {
+                                    throw new RuntimeException(ex);
+                                }
+                                double amount = Double.parseDouble(sendAmountField.getText());
+                                if (amount > balance) {
+                                    JOptionPane.showMessageDialog(frame, "Failed!! You have Insufficient Funds! Current balance is: ksh " + String.valueOf(balance) + " /=", "Insufficient Funds", JOptionPane.ERROR_MESSAGE);
+                                } else if (sendAmountField.getText().length() > 8) {
+                                    JOptionPane.showMessageDialog(frame, "Invalid Amount!!", "Amount Error", JOptionPane.ERROR_MESSAGE);
+                                } else {
+                                    String first_name = userNames(recipient_id).get(0);
+                                    String last_name = userNames(recipient_id).get(1);
+                                    String message = "Initiating Sending of  ksh " + sendAmountField.getText() + " / = to " + first_name + " " + last_name + ", Account Number: " + sendToField.getText();
+                                    int response = JOptionPane.showConfirmDialog(frame, message + ".  Do you want to continue?", "Confirm", JOptionPane.OK_CANCEL_OPTION);
+                                    if (response == JOptionPane.OK_OPTION) {
+                                        //                        int user_id = Integer.parseInt(sendFroField.getText());
+
+                                        if (sends(currentUser_id, recipient_id, amount)) {
+                                            try {
+                                                balance = checkBalance(currentUser_id).getFirst().total;
+                                                isSuccessful = checkBalance(currentUser_id).getFirst().isSuccessful;
+                                            } catch (SQLException ex) {
+                                                throw new RuntimeException(ex);
+                                            }
+                                            String text = "Confirmed ksh " + sendAmountField.getText() + " /= has been sent to " + first_name + " " + last_name + ", Account Number:  " + sendToField.getText() + ". Your New Account Balance is: ksh " + String.valueOf(balance) + " /=";
+                                            if (isSuccessful) {
+                                                JOptionPane.showMessageDialog(frame, text, "Transaction Completed!!", JOptionPane.PLAIN_MESSAGE);
+                                                frame.dispose();
+                                                new HomeFrame();
+                                            } else {
+                                                String txt2 = "Confirmed ksh " + sendAmountField.getText() + " /= has been sent to " + first_name + " " + last_name + ", Account Number:  " + sendToField.getText();
+                                                JOptionPane.showMessageDialog(frame, txt2, "Transaction Completed!!", JOptionPane.PLAIN_MESSAGE);
+                                            }
+                                        }
                                     }
                                 }
                             }
                         }
+
                     }
                 }
 

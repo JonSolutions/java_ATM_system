@@ -5,8 +5,7 @@ import java.awt.*;
 import java.sql.SQLException;
 
 import static josefDeEmpire.example.JdbcCrud.*;
-import static josefDeEmpire.example.MyUtils.buttonEffects;
-import static josefDeEmpire.example.MyUtils.textFieldEffects;
+import static josefDeEmpire.example.MyUtils.*;
 
 public class WithDrawFrame {
     WithDrawFrame(){
@@ -57,29 +56,35 @@ public class WithDrawFrame {
         buttonEffects(withdrawButton);
         withdrawButton.addActionListener(e -> {
             if(e.getSource() == withdrawButton) {
-                if(withdrawAmountField.getText().isEmpty()) {
-                    String x = "Withdraw amount is required!!!";
-                    JOptionPane.showMessageDialog(frame, x, "Field Error", JOptionPane.ERROR_MESSAGE);
+                if(!isSafeDouble(withdrawAmountField.getText())){
+                    String y = "Invalid Amount!!!";
+                    JOptionPane.showMessageDialog(frame, y, "Field Error", JOptionPane.ERROR_MESSAGE);
+                    withdrawAmountField.setText("");
                 }else {
-                    double balance;
-                    try {
-                        balance = checkBalance(currentUser_id).getFirst().total;
-                    } catch (SQLException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                    if(Double.parseDouble(withdrawAmountField.getText()) > balance) {
-                        JOptionPane.showMessageDialog(frame, "Withdraw amount exceeds the balance!! Your current balance is " + String.valueOf(balance), "Amount Error", JOptionPane.ERROR_MESSAGE);
-                    }else{
-                        String text = "Initiate withdraw of ksh " + withdrawAmountField.getText() + " /= from your account number: " + currentUser_id;
-                        int response = JOptionPane.showConfirmDialog(frame, text + " Do you want to continue?", "Confirm", JOptionPane.OK_CANCEL_OPTION);
-                        if (response == JOptionPane.OK_OPTION) {
+                    if(withdrawAmountField.getText().isEmpty()) {
+                        String x = "Withdraw amount is required!!!";
+                        JOptionPane.showMessageDialog(frame, x, "Field Error", JOptionPane.ERROR_MESSAGE);
+                    }else {
+                        double balance;
+                        try {
+                            balance = checkBalance(currentUser_id).getFirst().total;
+                        } catch (SQLException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        if(Double.parseDouble(withdrawAmountField.getText()) > balance) {
+                            JOptionPane.showMessageDialog(frame, "Withdraw amount exceeds the balance!! Your current balance is " + String.valueOf(balance), "Amount Error", JOptionPane.ERROR_MESSAGE);
+                        }else{
+                            String text = "Initiate withdraw of ksh " + withdrawAmountField.getText() + " /= from your account number: " + currentUser_id;
+                            int response = JOptionPane.showConfirmDialog(frame, text + " Do you want to continue?", "Confirm", JOptionPane.OK_CANCEL_OPTION);
+                            if (response == JOptionPane.OK_OPTION) {
 
-                            double amount = Double.parseDouble(withdrawAmountField.getText());
-                            if(withdraws(currentUser_id, amount)){
-                                String message = "ksh " + withdrawAmountField.getText() + " /= has been withdrawn from your account sucessfully!!!";
-                                JOptionPane.showMessageDialog(frame, message, "Transaction Complete!", JOptionPane.PLAIN_MESSAGE);
-                                frame.dispose();
-                                new HomeFrame();
+                                double amount = Double.parseDouble(withdrawAmountField.getText());
+                                if(withdraws(currentUser_id, amount)){
+                                    String message = "ksh " + withdrawAmountField.getText() + " /= has been withdrawn from your account sucessfully!!!";
+                                    JOptionPane.showMessageDialog(frame, message, "Transaction Complete!", JOptionPane.PLAIN_MESSAGE);
+                                    frame.dispose();
+                                    new HomeFrame();
+                                }
                             }
                         }
                     }
