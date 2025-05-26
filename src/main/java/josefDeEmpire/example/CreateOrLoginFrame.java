@@ -24,6 +24,7 @@ public class CreateOrLoginFrame {
         frame.add(label3);
 
         JPanel loginPanel = new JPanel();
+        loginPanel.setBackground(Color.cyan);
         loginPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         loginPanel.setBackground(Color.lightGray);
         loginPanel.setPreferredSize(new Dimension(400, 50));
@@ -39,11 +40,13 @@ public class CreateOrLoginFrame {
         loginPanel.add(loginButton);
 
         JPanel createAccountPanel = new JPanel();
+        createAccountPanel.setBackground(Color.cyan);
         createAccountPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         createAccountPanel.setBackground(Color.lightGray);
         createAccountPanel.setPreferredSize(new Dimension(400, 50));
         JButton createAccountButton = new JButton("New Account?");
         createAccountButton.setPreferredSize(new Dimension(380, 40));
+        buttonEffects(createAccountButton);
         createAccountButton.addActionListener(e -> {
             if (e.getSource() == createAccountButton) {
                 frame.dispose();

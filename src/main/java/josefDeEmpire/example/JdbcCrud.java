@@ -92,24 +92,26 @@ public class JdbcCrud {
 
     }
 
-    public static int isUserId(String username) {
+    public static List<String> userNames(int account_number) {
 
 
-        String sql = "SELECT * FROM users WHERE username = ?";
+        String sql = "SELECT * FROM users WHERE id = ?";
+        List<String> nameList = new ArrayList<>();
 
-        int id = 0;
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
             // Set parameters in query
-            statement.setString(1, username);
+            statement.setInt(1, account_number);
 
 
             // Execute query
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    id = resultSet.getInt("id");
-                    String name = resultSet.getString("username");
+                    String first_name = resultSet.getString("first_name");
+                    String last_name = resultSet.getString("last_name");
+                    nameList.add(first_name);
+                    nameList.add(last_name);
                 }
             }
 
@@ -117,7 +119,7 @@ public class JdbcCrud {
             System.err.println("Database error: " + e.getMessage());
             e.printStackTrace();
         }
-        return id;
+        return nameList;
     }
 
     public static String isUsername(String username) {
@@ -150,7 +152,8 @@ public class JdbcCrud {
     }
 
 
-    public static void deposits(int user_id, double amount){
+    public static boolean deposits(int user_id, double amount){
+        boolean isSuccessful = false;
         try{
 //            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -172,6 +175,7 @@ public class JdbcCrud {
             int rowsAffected = ps.executeUpdate();
 
             if (rowsAffected > 0) {
+                isSuccessful = true;
                 System.out.println("Deposits inserted successfully!");
             } else {
                 System.out.println("No rows were inserted.");
@@ -181,12 +185,15 @@ public class JdbcCrud {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        return isSuccessful;
     }
 
-    public static void sends(int sender_id, int recipient_id, double amount){
+    public static boolean sends(int sender_id, int recipient_id, double amount){
+        boolean isSuccessful = false;
         try{
 //            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            conn.setAutoCommit(false);
             String createTableSQL = "CREATE TABLE IF NOT EXISTS sends (" +
                     "id INT AUTO_INCREMENT PRIMARY KEY," +
                     "sender_id INT NOT NULL," +
@@ -194,21 +201,24 @@ public class JdbcCrud {
                     "amount DECIMAL(10, 2) NOT NULL," +
                     "FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE," +
                     "FOREIGN KEY (recipient_id) REFERENCES users(id) ON DELETE CASCADE" +
-                    ")";
+                    ");";
             PreparedStatement ps = conn.prepareStatement(createTableSQL);
             ps.executeUpdate();
-            String insertSQL = "INSERT INTO sends (sender_id, recipient_id, amount) VALUES (?, ?, ?)";
+
+
+            String insertSQL = "INSERT INTO sends (sender_id, recipient_id, amount) VALUES (?, ?, ?);";
             ps = conn.prepareStatement(insertSQL);
             // Set parameter values
             ps.setInt(1, sender_id);
             ps.setInt(2, recipient_id);
             ps.setDouble(3, amount);
 
-            // Execute the insert
             int rowsAffected = ps.executeUpdate();
 
             if (rowsAffected > 0) {
+                isSuccessful = true;
                 System.out.println("Send inserted successfully!");
+                conn.commit();
             } else {
                 System.out.println("No rows were inserted.");
             }
@@ -217,9 +227,11 @@ public class JdbcCrud {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        return isSuccessful;
     }
 
-    public static void withdraws(int user_id, double amount){
+    public static boolean withdraws(int user_id, double amount){
+        boolean isSuccessful = false;
         try{
 //            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -242,6 +254,7 @@ public class JdbcCrud {
             int rowsAffected = ps.executeUpdate();
 
             if (rowsAffected > 0) {
+                isSuccessful = true;
                 System.out.println("Withdraw recorded successfully!");
             } else {
                 System.out.println("No withdrwals were recorded.");
@@ -251,6 +264,7 @@ public class JdbcCrud {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        return isSuccessful;
     }
 
 
@@ -297,23 +311,20 @@ public class JdbcCrud {
                 String first_name = resultSet.getString("first_name");
                 String last_name = resultSet.getString("last_name");
                 String username = resultSet.getString("username");
-                userDetails.add(new MyUtils(total, first_name, last_name, username));
+                boolean isSuccessful = true;
+                userDetails.add(new MyUtils(total, first_name, last_name, username, isSuccessful));
+                for(MyUtils num : userDetails){
+                    System.out.println(num.total);
+                }
                 System.out.println("Account balance: " + total);
             }
 
         } catch (SQLException e) {
+            assert conn != null;
             conn.rollback();
             System.out.println(e.getMessage());
         }
         return userDetails;
     }
-
-
-
-
-
-
-
-
 
 }

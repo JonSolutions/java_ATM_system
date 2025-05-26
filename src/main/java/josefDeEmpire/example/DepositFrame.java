@@ -5,6 +5,7 @@ import java.awt.*;
 
 import static josefDeEmpire.example.JdbcCrud.*;
 import static josefDeEmpire.example.MyUtils.buttonEffects;
+import static josefDeEmpire.example.MyUtils.textFieldEffects;
 
 public class DepositFrame {
     DepositFrame(){
@@ -13,9 +14,11 @@ public class DepositFrame {
         frame.setSize(300, 300);
         frame.setLocationRelativeTo(null);
         frame.setLayout(new FlowLayout());
+        frame.getContentPane().setBackground(Color.cyan);
 
 
         JPanel depositAmountLabelPanel = new JPanel();
+        depositAmountLabelPanel.setBackground(Color.cyan);
         depositAmountLabelPanel.setLayout(new FlowLayout());
         depositAmountLabelPanel.setPreferredSize(new Dimension(200, 30));
         JLabel depositAmountLabel = new JLabel("Deposit Amount");
@@ -25,38 +28,45 @@ public class DepositFrame {
 
 
         JPanel depositAmountFieldPanel = new JPanel();
+        depositAmountFieldPanel.setBackground(Color.cyan);
         depositAmountFieldPanel.setLayout(new FlowLayout());
-        depositAmountFieldPanel.setPreferredSize(new Dimension(200, 30));
+        depositAmountFieldPanel.setPreferredSize(new Dimension(280, 40));
         JTextField depositAmountTextField = new JTextField();
         depositAmountTextField.setFont(new Font("Arial", Font.BOLD, 20));
-        depositAmountTextField.setPreferredSize(new Dimension(180, 30));
+        depositAmountTextField.setPreferredSize(new Dimension(250, 30));
+        textFieldEffects(depositAmountTextField, "Enter Deposit Amount");
         depositAmountTextField.setEditable(true);
         depositAmountFieldPanel.add(depositAmountTextField);
 
         JPanel depositFromPanel = new JPanel();
+        depositFromPanel.setBackground(Color.cyan);
         depositFromPanel.setLayout(new FlowLayout());
         depositFromPanel.setPreferredSize(new Dimension(200, 30));
         JLabel depositFrom = new JLabel("Hi, " + currentUser_first_name + " " + currentUser_last_name + " happy transacting!!");
         depositFrom.setFont(new Font("Arial", Font.BOLD, 12));
         depositFrom.setPreferredSize(new Dimension(200, 30));
+        depositFrom.setBackground(Color.cyan);
         depositFromPanel.add(depositFrom);
 
 
-        JPanel depositFromFieldPanel = new JPanel();
-        depositFromFieldPanel.setLayout(new FlowLayout());
-        depositFromFieldPanel.setPreferredSize(new Dimension(200, 30));
-        JTextField depositFromTextField = new JTextField();
-        depositFromTextField.setFont(new Font("Arial", Font.BOLD, 20));
-        depositFromTextField.setPreferredSize(new Dimension(180, 30));
-        depositFromTextField.setEditable(true);
-        depositFromFieldPanel.add(depositFromTextField);
+//        JPanel depositFromFieldPanel = new JPanel();
+//        depositFromFieldPanel.setBackground(Color.cyan);
+//        depositFromFieldPanel.setLayout(new FlowLayout());
+//        depositFromFieldPanel.setPreferredSize(new Dimension(280, 40));
+//        JTextField depositFromTextField = new JTextField();
+//        depositFromTextField.setFont(new Font("Arial", Font.BOLD, 20));
+//        depositFromTextField.setPreferredSize(new Dimension(250, 30));
+//        depositFromTextField.setEditable(true);
+//        depositFromTextField.setBackground(Color.cyan);
+//        depositFromFieldPanel.add(depositFromTextField);
 
         JPanel depositAmountButtonPanel = new JPanel();
+        depositAmountButtonPanel.setBackground(Color.cyan);
         depositAmountButtonPanel.setLayout(new FlowLayout());
-        depositAmountButtonPanel.setPreferredSize(new Dimension(200, 30));
+        depositAmountButtonPanel.setPreferredSize(new Dimension(280, 40));
         JButton depositAmountButton = new JButton("Deposit +");
         depositAmountButton.setFont(new Font("Arial", Font.BOLD, 12));
-        depositAmountButton.setPreferredSize(new Dimension(180, 30));
+        depositAmountButton.setPreferredSize(new Dimension(250, 30));
         depositAmountButton.setBackground(Color.green);
         buttonEffects(depositAmountButton);
         depositAmountButton.addActionListener(e -> {
@@ -70,11 +80,12 @@ public class DepositFrame {
                     if (response == JOptionPane.OK_OPTION) {
 //                        int user_id = Integer.parseUnsignedInt(depositFromTextField.getText());
                         double amount = Double.parseDouble(depositAmountTextField.getText());
-                        deposits(currentUser_id, amount);
-                        String text = "ksh " + depositAmountTextField.getText() + " /= has been deposited to your account successfully!!: ";
-                        JOptionPane.showMessageDialog(frame, text, "Transaction Completed!!", JOptionPane.PLAIN_MESSAGE);
-                        frame.dispose();
-                        new HomeFrame();
+                        if(deposits(currentUser_id, amount)){
+                            String text = "ksh " + depositAmountTextField.getText() + " /= has been deposited to your account successfully!!: ";
+                            JOptionPane.showMessageDialog(frame, text, "Transaction Completed!!", JOptionPane.PLAIN_MESSAGE);
+                            frame.dispose();
+                            new HomeFrame();
+                        }
                     }
                 }
             }
@@ -82,11 +93,13 @@ public class DepositFrame {
         depositAmountButtonPanel.add(depositAmountButton);
 
         JPanel homePanel = new JPanel();
+        homePanel.setBackground(Color.cyan);
         homePanel.setLayout(new FlowLayout());
-        homePanel.setPreferredSize(new Dimension(200, 30));
+        homePanel.setPreferredSize(new Dimension(280, 40));
         JButton homeButton = new JButton("Back To Main Menu");
         homeButton.setFont(new Font("Arial", Font.BOLD, 12));
-        homeButton.setPreferredSize(new Dimension(180, 30));
+        homeButton.setPreferredSize(new Dimension(250, 30));
+        buttonEffects(homeButton);
         homeButton.addActionListener(e -> {
             if(e.getSource() == homeButton){
                frame.dispose();

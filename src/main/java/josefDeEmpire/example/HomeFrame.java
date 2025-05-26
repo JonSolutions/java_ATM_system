@@ -3,16 +3,20 @@ package josefDeEmpire.example;
 import javax.swing.*;
 import java.awt.*;
 
+import static josefDeEmpire.example.JdbcCrud.currentUser_first_name;
+import static josefDeEmpire.example.JdbcCrud.currentUser_last_name;
+import static josefDeEmpire.example.MyUtils.buttonEffects;
+
 public class HomeFrame {
     HomeFrame(){
         JFrame frame = new JFrame("Home");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 330);
+        frame.setSize(400, 390);
         frame.setLocationRelativeTo(null);
         frame.setLayout(new FlowLayout(FlowLayout.CENTER));
         frame.getContentPane().setBackground(Color.cyan);
 
-        JLabel label = new JLabel("Home Main Menu");
+        JLabel label = new JLabel("Hello, " + currentUser_first_name + " " + currentUser_last_name + ". Welcome!!");
         frame.add(label);
 
         JPanel depositPanel = new JPanel();
@@ -21,6 +25,7 @@ public class HomeFrame {
         depositPanel.setPreferredSize(new Dimension(400, 50));
         JButton depositButton = new JButton("Deposit");
         depositButton.setPreferredSize(new Dimension(380, 40));
+        buttonEffects(depositButton);
         depositButton.addActionListener(e -> {
             if (e.getSource() == depositButton) {
                 frame.dispose();
@@ -36,6 +41,7 @@ public class HomeFrame {
         balancePanel.setPreferredSize(new Dimension(400, 50));
         JButton balanceButton = new JButton("Check Balance");
         balanceButton.setPreferredSize(new Dimension(380, 40));
+        buttonEffects(balanceButton);
         balanceButton.addActionListener(e -> {
             if(e.getSource() == balanceButton) {
                 frame.dispose();
@@ -51,6 +57,7 @@ public class HomeFrame {
         sendPanel.setPreferredSize(new Dimension(400, 50));
         JButton sendButton = new JButton("Send Money");
         sendButton.setPreferredSize(new Dimension(380, 40));
+        buttonEffects(sendButton);
         sendButton.addActionListener(e -> {
             if(e.getSource() == sendButton){
                 frame.dispose();
@@ -66,6 +73,7 @@ public class HomeFrame {
         withDrawPanel.setPreferredSize(new Dimension(400, 50));
         JButton withdrawButton = new JButton("Withdraw");
         withdrawButton.setPreferredSize(new Dimension(380, 40));
+        buttonEffects(withdrawButton);
         withdrawButton.addActionListener(e -> {
             if(e.getSource() == withdrawButton){
                 frame.dispose();
@@ -80,6 +88,7 @@ public class HomeFrame {
         newAccountPanel.setPreferredSize(new Dimension(400, 50));
         JButton newAccountButton = new JButton("Create New Account");
         newAccountButton.setPreferredSize(new Dimension(380, 40));
+        buttonEffects(newAccountButton);
         newAccountButton.addActionListener(e -> {
             if(e.getSource() == newAccountButton){
                 frame.dispose();
@@ -88,11 +97,27 @@ public class HomeFrame {
         });
         newAccountPanel.add(newAccountButton);
 
+        JPanel logoutPanel = new JPanel();
+        logoutPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        logoutPanel.setBackground(Color.lightGray);
+        logoutPanel.setPreferredSize(new Dimension(400, 50));
+        JButton logoutButton = new JButton("Logout");
+        logoutButton.setPreferredSize(new Dimension(380, 40));
+        buttonEffects(logoutButton);
+        logoutButton.addActionListener(e -> {
+            if(e.getSource() == logoutButton){
+                frame.dispose();
+                new CreateOrLoginFrame();
+            }
+        });
+        logoutPanel.add(logoutButton);
+
         frame.add(depositPanel);
         frame.add(sendPanel);
         frame.add(withDrawPanel);
         frame.add(balancePanel);
         frame.add(newAccountPanel);
+        frame.add(logoutPanel);
         frame.setVisible(true);
     }
 }

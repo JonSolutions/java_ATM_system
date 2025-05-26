@@ -8,6 +8,7 @@ import java.util.List;
 import static josefDeEmpire.example.JdbcCrud.currentUser_username;
 import static josefDeEmpire.example.JdbcCrud.isValidUser;
 import static josefDeEmpire.example.MyUtils.buttonEffects;
+import static josefDeEmpire.example.MyUtils.textFieldEffects;
 
 public class LoginFrame {
     LoginFrame() {
@@ -17,40 +18,47 @@ public class LoginFrame {
         frame.setSize(300, 300);
         frame.setLocationRelativeTo(null);
         frame.setLayout(new FlowLayout());
-        frame.getContentPane().setBackground(Color.lightGray);
+        frame.getContentPane().setBackground(Color.cyan);
 
 
         JPanel labelPanel = new JPanel();
+        labelPanel.setBackground(Color.cyan);
         labelPanel.setPreferredSize(new Dimension(300, 40));
         labelPanel.setLayout(new FlowLayout());
         JLabel usernameLabel = new JLabel("Username");
         usernameLabel.setFont(new Font("Arial", Font.BOLD, 15));
-        usernameLabel.setForeground(Color.red);
+        usernameLabel.setForeground(Color.black);
         labelPanel.add(usernameLabel);
 
         JPanel usernamePanel = new JPanel();
+        usernamePanel.setBackground(Color.cyan);
         usernamePanel.setPreferredSize(new Dimension(300, 40));
         usernamePanel.setLayout(new FlowLayout());
         JTextField usernameField = new JTextField();
         usernameField.setFont(new Font("Serif", Font.BOLD, 20));
         usernameField.setPreferredSize(new Dimension(280, 30));
+        textFieldEffects(usernameField, "Enter Username");
         usernamePanel.add(usernameField);
 
         JPanel passwordLabelPanel = new JPanel();
+        passwordLabelPanel.setBackground(Color.cyan);
         passwordLabelPanel.setPreferredSize(new Dimension(300, 40));
         JLabel passwordLabel = new JLabel("Password");
-        passwordLabel.setForeground(Color.red);
+        passwordLabel.setForeground(Color.black);
         passwordLabel.setFont(new Font("Arial", Font.BOLD, 15));
         passwordLabelPanel.add(passwordLabel);
 
         JPanel passwordPanel = new JPanel();
+        passwordPanel.setBackground(Color.cyan);
         passwordPanel.setPreferredSize(new Dimension(300, 40));
         JPasswordField passwordField = new JPasswordField();
         passwordField.setPreferredSize(new Dimension(280, 30));
         passwordField.setFont(new Font("Serif", Font.BOLD, 20));
+        textFieldEffects(passwordField, "Enter Password");
         passwordPanel.add(passwordField);
 
          JPanel buttonPanel = new JPanel();
+         buttonPanel.setBackground(Color.cyan);
         buttonPanel.setPreferredSize(new Dimension(300, 40));
         JButton loginButton = new JButton("Login");
         loginButton.setForeground(Color.blue);
@@ -84,11 +92,13 @@ public class LoginFrame {
         });
 
         JPanel createAccountPanel = new JPanel();
+        createAccountPanel.setBackground(Color.cyan);
         createAccountPanel.setPreferredSize(new Dimension(300, 40));
         JButton createAccountButton = new JButton("new account?");
         createAccountButton.setForeground(Color.blue);
         createAccountButton.setPreferredSize(new Dimension(280, 30));
         createAccountButton.setFont(new Font("Tahoma", Font.BOLD, 12));
+        buttonEffects(createAccountButton);
         createAccountButton.addActionListener(e -> {
             if(e.getSource() == createAccountButton) {
                 frame.dispose();

@@ -1,9 +1,14 @@
 package josefDeEmpire.example;
 
 import javax.swing.*;
+import javax.swing.text.Position;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import static josefDeEmpire.example.JdbcCrud.users;
+import static josefDeEmpire.example.MyUtils.buttonEffects;
+import static josefDeEmpire.example.MyUtils.textFieldEffects;
 
 public class CreateAccountFrame {
     CreateAccountFrame() {
@@ -11,81 +16,95 @@ public class CreateAccountFrame {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 490);
         frame.setLocationRelativeTo(null);
-        frame.getContentPane().setBackground(Color.lightGray);
+        frame.getContentPane().setBackground(Color.cyan);
         frame.setLayout(new FlowLayout());
         frame.setResizable(false);
 
         JPanel panel1 = new JPanel();
+        panel1.setBackground(Color.cyan);
         panel1.setPreferredSize(new Dimension(500, 50));
         JLabel firstNameLabel = new JLabel("First Name");
         firstNameLabel.setPreferredSize(new Dimension(100, 40));
-        firstNameLabel.setForeground(Color.red);
+        firstNameLabel.setForeground(Color.black);
         JTextField firstNameField = new JTextField();
         firstNameField.setPreferredSize(new Dimension(300, 30));
         firstNameField.setFont(new Font("Arial", Font.BOLD, 15));
+        textFieldEffects(firstNameField, "Enter First Name");
         panel1.add(firstNameLabel);
         panel1.add(firstNameField);
 
         JPanel panel2 = new JPanel();
+        panel2.setBackground(Color.cyan);
         panel2.setPreferredSize(new Dimension(500, 50));
         JLabel lastNameLabel = new JLabel("Last Name");
         lastNameLabel.setPreferredSize(new Dimension(100, 40));
-        lastNameLabel.setForeground(Color.red);
+        lastNameLabel.setForeground(Color.black);
         JTextField lastNameField = new JTextField();
         lastNameField.setPreferredSize(new Dimension(300, 30));
         lastNameField.setFont(new Font("Arial", Font.BOLD, 15));
+        textFieldEffects(lastNameField, "Enter Last Name");
         panel2.add(lastNameLabel);
         panel2.add(lastNameField);
 
         JPanel panel3 = new JPanel();
+        panel3.setBackground(Color.cyan);
         panel3.setPreferredSize(new Dimension(500, 50));
         JLabel usernameLabel = new JLabel("Username");
         usernameLabel.setPreferredSize(new Dimension(100, 40));
-        usernameLabel.setForeground(Color.red);
+        usernameLabel.setForeground(Color.black);
         JTextField usernameField = new JTextField();
         usernameField.setPreferredSize(new Dimension(300, 30));
         usernameField.setFont(new Font("Arial", Font.BOLD, 15));
+        textFieldEffects(usernameField, "Enter Username");
         panel3.add(usernameLabel);
         panel3.add(usernameField);
 
         JPanel panel4 = new JPanel();
+        panel4.setBackground(Color.cyan);
         panel4.setLayout(new FlowLayout());
         panel4.setPreferredSize(new Dimension(500, 50));
         JLabel phoneLabel = new JLabel("Phone Number");
         phoneLabel.setPreferredSize(new Dimension(100, 40));
-        phoneLabel.setForeground(Color.red);
+        phoneLabel.setForeground(Color.black);
         JTextField phoneField = new JTextField();
         phoneField.setPreferredSize(new Dimension(300, 30));
         phoneField.setFont(new Font("Arial", Font.BOLD, 15));
+        textFieldEffects(phoneField, "Enter Phone Number");
         panel4.add(phoneLabel);
         panel4.add(phoneField);
 
         JPanel panel5 = new JPanel();
+        panel5.setBackground(Color.cyan);
         panel5.setPreferredSize(new Dimension(500, 50));
         JLabel passwordLabel = new JLabel("Password");
         passwordLabel.setPreferredSize(new Dimension(100, 40));
-        passwordLabel.setForeground(Color.red);
+        passwordLabel.setForeground(Color.black);
         JPasswordField passwordField = new JPasswordField();
         passwordField.setPreferredSize(new Dimension(300, 30));
         passwordField.setFont(new Font("Arial", Font.BOLD, 20));
+        textFieldEffects(passwordField, "Enter Password");
         panel5.add(passwordLabel);
         panel5.add(passwordField);
 
         JPanel panel6 = new JPanel();
+        panel6.setBackground(Color.cyan);
         panel6.setPreferredSize(new Dimension(500, 50));
         JLabel confirmPasswordLabel = new JLabel("Confirm Password");
         confirmPasswordLabel.setPreferredSize(new Dimension(100, 40));
-        confirmPasswordLabel.setForeground(Color.red);
+        confirmPasswordLabel.setForeground(Color.black);
         JPasswordField confirmPasswordField = new JPasswordField();
         confirmPasswordField.setPreferredSize(new Dimension(300, 30));
         confirmPasswordField.setFont(new Font("Arial", Font.BOLD, 20));
+        textFieldEffects(confirmPasswordField, "Confirm Password");
         panel6.add(confirmPasswordLabel);
         panel6.add(confirmPasswordField);
 
         JPanel panel7 = new JPanel();
+        panel7.setBackground(Color.cyan);
         panel7.setPreferredSize(new Dimension(500, 50));
         JButton CreateButton = new JButton("Create Account");
         CreateButton.setPreferredSize(new Dimension(480, 40));
+        buttonEffects(CreateButton);
         CreateButton.addActionListener(e -> {
             if(e.getSource() == CreateButton) {
                 String firstName = firstNameField.getText();
@@ -124,9 +143,11 @@ public class CreateAccountFrame {
         panel7.add(CreateButton);
 
         JPanel panel8 = new JPanel();
+        panel8.setBackground(Color.cyan);
         panel8.setPreferredSize(new Dimension(500, 50));
         JButton backButton = new JButton("Go Back");
         backButton.setPreferredSize(new Dimension(480, 40));
+        buttonEffects(backButton);
         backButton.addActionListener(e -> {
             if(e.getSource() == backButton) {
                 frame.dispose();
