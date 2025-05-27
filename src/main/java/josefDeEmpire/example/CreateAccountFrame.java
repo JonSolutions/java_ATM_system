@@ -117,25 +117,30 @@ public class CreateAccountFrame {
                 if(firstName.isEmpty() || lastName.isEmpty() || username.isEmpty() || phoneNumber.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
                     JOptionPane.showMessageDialog(frame, "Please fill all the required fields");
                 }else{
-                    if(password.equals(confirmPassword)) {
-                        try {
-                            users(firstName, lastName, username, phoneNumber, password);
-                        } catch (ClassNotFoundException ex) {
-                            throw new RuntimeException(ex);
-                        }
-                        String text = "Congratulations " + firstName + ". Account Creation Successful. \nYour username is: " + username + "\n Your phone is: " + phoneNumber + ". \nDo you want to proceed to Login??\n";
-                        int response = JOptionPane.showConfirmDialog(frame, text,"Confirm!!", JOptionPane.OK_CANCEL_OPTION);
-                        if(response == JOptionPane.OK_OPTION) {
-                            frame.dispose();
-                            new LoginFrame();
-                        }else if(response == JOptionPane.CANCEL_OPTION) {
-                            String op = "You can always login anytime!! GoodBye for now!!";
-                            JOptionPane.showMessageDialog(frame, op, "GoodBye", JOptionPane.PLAIN_MESSAGE);
-                            frame.dispose();
-                        }
-
+                    if(username.length() < 8 || password.length() < 8 || confirmPassword.length() < 8) {
+                        String opi = "Password and Username cant be less than 8 characters";
+                        JOptionPane.showMessageDialog(frame, opi, "GoodBye", JOptionPane.PLAIN_MESSAGE);
                     }else{
-                        JOptionPane.showMessageDialog(frame, "Passwords do not match!!", "Password Error!!", JOptionPane.ERROR_MESSAGE);
+                        if(password.equals(confirmPassword)) {
+                            try {
+                                users(firstName, lastName, username, phoneNumber, password);
+                            } catch (ClassNotFoundException ex) {
+                                throw new RuntimeException(ex);
+                            }
+                            String text = "Congratulations " + firstName + ". Account Creation Successful. \nYour username is: " + username + "\n Your phone is: " + phoneNumber + ". \nDo you want to proceed to Login??\n";
+                            int response = JOptionPane.showConfirmDialog(frame, text,"Confirm!!", JOptionPane.OK_CANCEL_OPTION);
+                            if(response == JOptionPane.OK_OPTION) {
+                                frame.dispose();
+                                new LoginFrame();
+                            }else if(response == JOptionPane.CANCEL_OPTION) {
+                                String op = "You can always login anytime!! GoodBye for now!!";
+                                JOptionPane.showMessageDialog(frame, op, "GoodBye", JOptionPane.PLAIN_MESSAGE);
+                                frame.dispose();
+                            }
+
+                        }else{
+                            JOptionPane.showMessageDialog(frame, "Passwords do not match!!", "Password Error!!", JOptionPane.ERROR_MESSAGE);
+                        }
                     }
                 }
             }

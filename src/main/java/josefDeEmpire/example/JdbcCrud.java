@@ -326,5 +326,33 @@ public class JdbcCrud {
         }
         return userDetails;
     }
+public static boolean isUserId(int user_id){
+    boolean isSuccessful = false;
+    try{
+//            Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
 
+        String insertSQL = "SELECT FROM users (user_id) VALUES (?)";
+        PreparedStatement ps = conn.prepareStatement(insertSQL);
+        // Set parameter values
+        ps.setInt(1, user_id);
+
+        // Execute the insert
+        ResultSet rowsAffected = ps.executeQuery();
+
+        if (rowsAffected.next()) {
+            isSuccessful = true;
+            System.out.println("Withdraw recorded successfully!");
+        } else {
+            System.out.println("No withdrwals were recorded.");
+        }
+
+
+    } catch (SQLException e) {
+        System.out.println(e.getMessage());
+    }
+    return isSuccessful;
 }
+}
+
+

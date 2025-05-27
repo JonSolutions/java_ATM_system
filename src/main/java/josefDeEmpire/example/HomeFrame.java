@@ -45,7 +45,7 @@ public class HomeFrame {
         balanceButton.addActionListener(e -> {
             if(e.getSource() == balanceButton) {
                 frame.dispose();
-                new CheckBalanceFrame();
+                new CheckBalancePinFrame();
             }
         });
         balancePanel.add(balanceButton);
